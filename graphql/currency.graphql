@@ -1,0 +1,22 @@
+extend type Query {
+    "Get a list of all the currencies."
+    currencies: [Currency!]! @paginate @orderBy(column: "code")
+
+    "Search for a currency by ID, code, or name."
+    currency(
+        id: ID @eq @rules(apply: ["required_without_all:code,name"])
+        code: String @like @rules(apply: ["required_without_all:id,name"])
+        name: String @like @rules(apply: ["required_without_all:id,code"])
+    ): Currency @find
+}
+
+type Currency {
+    "The currency ID."
+    id: ID!
+    "The currency code."
+    code: String!
+    "The currency name."
+    name: String!
+    "The currency symbol."
+    symbol: String!
+}

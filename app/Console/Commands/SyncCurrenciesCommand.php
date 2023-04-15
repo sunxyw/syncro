@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Currencies;
+use App\Models\Currency;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
@@ -80,7 +80,7 @@ class SyncCurrenciesCommand extends Command
         })->toArray();
 
         // update currencies
-        Currencies::query()
+        Currency::query()
             ->lockForUpdate()
             ->upsert($currencies, 'code', ['name', 'symbol']);
     }
