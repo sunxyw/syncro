@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::get('public', function () {
+    if (Auth::check()) {
+        dump(Auth::user());
+    } else {
+        dump('Not logged in');
+    }
+})->middleware('auth0.authorize.optional');
