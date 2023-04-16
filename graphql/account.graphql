@@ -1,0 +1,43 @@
+extend type Query {
+    "Get the account information for the current user."
+    account: Account! @user @account
+}
+
+extend type Mutation {
+    "Upsert the account information for the current user."
+    upsertAccount(
+        "The account ID."
+        id: ID!
+        "The account first name."
+        first_name: String!
+        "The account last name."
+        last_name: String!
+        "The account nickname."
+        nickname: String
+        "The account preferred locale."
+        locale: String!
+        "The account preferred timezone."
+        timezone: String!
+    ): Account! @upsert
+
+    "Delete the account information for the current user."
+    deleteAccount(
+        "The account ID."
+        id: ID! @eq
+    ): Account @delete
+}
+
+type Account {
+    "The account ID."
+    id: ID!
+    "The account first name."
+    first_name: String!
+    "The account last name."
+    last_name: String!
+    "The account nickname."
+    nickname: String
+    "The account preferred locale."
+    locale: String!
+    "The account preferred timezone."
+    timezone: String!
+}

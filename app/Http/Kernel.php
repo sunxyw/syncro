@@ -3,6 +3,9 @@
 namespace App\Http;
 
 use App\Http\Middleware\LocalDev;
+use App\Http\Middleware\PreventRequestsBeforeAccountCreated;
+use Auth0\Laravel\Http\Middleware\Stateless\Authorize;
+use Auth0\Laravel\Http\Middleware\Stateless\AuthorizeOptional;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -23,6 +26,8 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         LocalDev::class,
+        AuthorizeOptional::class,
+        PreventRequestsBeforeAccountCreated::class,
     ];
 
     /**
@@ -65,5 +70,30 @@ class Kernel extends HttpKernel
         'signed' => \App\Http\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+    ];
+
+    /**
+     * The priority-sorted list of middleware.
+     *
+     * Forces non-global middleware to always be in the given order.
+     *
+     * @var string[]
+     */
+    protected $middlewarePriority = [
+        \Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests::class,
+        \Illuminate\Cookie\Middleware\EncryptCookies::class,
+        \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+        \Illuminate\Session\Middleware\StartSession::class,
+        \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+        \Illuminate\Contracts\Auth\Middleware\AuthenticatesRequests::class,
+        \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        \Illuminate\Routing\Middleware\ThrottleRequestsWithRedis::class,
+        \Illuminate\Contracts\Session\Middleware\AuthenticatesSessions::class,
+        \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        \Illuminate\Auth\Middleware\Authorize::class,
+        LocalDev::class,
+        AuthorizeOptional::class,
+        Authorize::class,
+        PreventRequestsBeforeAccountCreated::class,
     ];
 }

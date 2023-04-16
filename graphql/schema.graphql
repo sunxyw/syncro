@@ -19,3 +19,4 @@ type Mutation {
 }
 
 #import currency.graphql
+#import account.graphql
